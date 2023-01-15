@@ -1,4 +1,5 @@
 import React from "react";
+import './categoriesContainer.scss'
 
 const CategoryContainer = ({ category }) => {
   return (
