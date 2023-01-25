@@ -1,8 +1,7 @@
-import React, { Fragment, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { Fragment } from "react";
+import { useSelector } from "react-redux";
 import { Link, Outlet } from "react-router-dom";
 import { ReactComponent as CrownLogo } from "../../assets/crown.svg";
-import { setCurrentUser } from "../../features/userSlice";
 import { signOutUser } from "../../utils/firebase/firebase";
 import "./navigation.scss";
 
@@ -10,12 +9,7 @@ const Navigation = () => {
   /*
     <Fragment></Fragment> === <></> 
    */
-  const dispatch = useDispatch();
   const { currentUser } = useSelector((state) => state.user);
-  const signOutHandler = async () => {
-    await signOutUser(); // return undefined
-    dispatch(setCurrentUser(null));
-  };
 
   return (
     <Fragment>
@@ -28,7 +22,7 @@ const Navigation = () => {
             SHOP
           </Link>
           {currentUser ? (
-            <span className="nav-link" onClick={signOutHandler}>
+            <span className="nav-link" onClick={signOutUser}>
               SIGN OUT
             </span>
           ) : (

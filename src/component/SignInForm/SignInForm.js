@@ -1,8 +1,5 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { setCurrentUser } from "../../features/userSlice";
 import {
-  createUserDocFromAuth,
   signInAuthUserWithEmailAndPassword,
   signInWithGooglePopup,
 } from "../../utils/firebase/firebase";
@@ -11,7 +8,6 @@ import FormInput from "../FormInput/FormInput";
 import "./SignInForm.scss";
 
 const SignInForm = () => {
-  const dispatch = useDispatch();
   const defaultFormFields = {
     email: "",
     password: "",
@@ -36,7 +32,6 @@ const SignInForm = () => {
     try {
       const res = await signInAuthUserWithEmailAndPassword(email, password);
       const { user } = res;
-      dispatch(setCurrentUser(user));
       resetFormFields();
     } catch (e) {
       switch (e.code) {
@@ -52,11 +47,7 @@ const SignInForm = () => {
   };
 
   const signInWithGoogle = async () => {
-    const res = await signInWithGooglePopup();
-    // console.log("res", res);
-    const { user } = res;
-    dispatch(setCurrentUser(user));
-    await createUserDocFromAuth(user);
+    await signInWithGooglePopup();
   };
 
   return (

@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { setCurrentUser } from "../../features/userSlice";
 import {
   createAuthUserWithEmailAndPassword,
   createUserDocFromAuth,
@@ -10,7 +8,6 @@ import FormInput from "../FormInput/FormInput";
 import "./SignUpForm.scss";
 
 const SignUpForm = () => {
-  const dispatch = useDispatch();
   const defaultFormFields = {
     displayName: "",
     email: "",
@@ -39,7 +36,6 @@ const SignUpForm = () => {
     try {
       const res = await createAuthUserWithEmailAndPassword(email, password);
       const { user } = res;
-      dispatch(setCurrentUser(user));
 
       // createUserDocFromAuth = async (userAuth, additionalInfo = {})
       await createUserDocFromAuth(user, { displayName });
