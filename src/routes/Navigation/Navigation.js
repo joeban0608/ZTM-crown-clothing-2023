@@ -2,6 +2,8 @@ import React, { Fragment } from "react";
 import { useSelector } from "react-redux";
 import { Link, Outlet } from "react-router-dom";
 import { ReactComponent as CrownLogo } from "../../assets/crown.svg";
+import CartDropdown from "../../component/CartDropdown/CartDropdown";
+import CartIcon from "../../component/CartIcon/CartIcon";
 import { signOutUser } from "../../utils/firebase/firebase";
 import "./navigation.scss";
 
@@ -10,6 +12,7 @@ const Navigation = () => {
     <Fragment></Fragment> === <></> 
    */
   const { currentUser } = useSelector((state) => state.user);
+  const { isCartOpen } = useSelector((state) => state.shop);
 
   return (
     <Fragment>
@@ -30,7 +33,9 @@ const Navigation = () => {
               SIGN IN
             </Link>
           )}
+          <CartIcon />
         </div>
+        {isCartOpen && <CartDropdown />}
       </div>
       <Outlet />
     </Fragment>
