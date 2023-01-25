@@ -6,6 +6,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
+  onAuthStateChanged,
 } from "firebase/auth";
 import { doc, getFirestore, getDoc, setDoc } from "firebase/firestore";
 
@@ -32,6 +33,8 @@ export const signInWithGooglePopup = () =>
   signInWithPopup(auth, GoogleProvider);
 
 export const ztmCrownClothingDb = getFirestore();
+
+// createUserDocFromAuth 內有判斷如果沒有 user 創 user 如果有就 return userDocRef
 export const createUserDocFromAuth = async (userAuth, additionalInfo = {}) => {
   if (!userAuth) return;
   const userDocRef = doc(ztmCrownClothingDb, "users", userAuth.uid);
@@ -72,3 +75,6 @@ export const signInAuthUserWithEmailAndPassword = async (email, password) => {
 };
 
 export const signOutUser = async () => signOut(auth);
+
+export const onAuthStateChangedListener = (callback) =>
+  onAuthStateChanged(auth, callback);
