@@ -1,10 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { collection, getDocs, query } from "firebase/firestore";
+import { crownClothingDb } from "../utils/firebase/firebase";
 
 const initialState = {
   isCartOpen: false,
   cartItems: [],
   cartItemsCount: 0,
   cartTotal: 0,
+  categoriesTable: {},
 };
 
 export const shopSlice = createSlice({
@@ -23,6 +26,9 @@ export const shopSlice = createSlice({
     },
     setCartTotal: (state, action) => {
       state.cartTotal = action.payload;
+    },
+    setCategoriesTable: (state, action) => {
+      state.categoriesTable = action.payload;
     },
   },
 });
@@ -75,8 +81,34 @@ export const clearItemToCart = (cartItems, productToRemove) => {
   return cartItems.filter((cartItem) => cartItem.id !== productToRemove.id);
 };
 
+/* categories */
+export const getCategoriesAndDocAsync = async (dispatch) => {
+  try {
+    const collectionRef = collection(crownClothingDb, "categories");
+    const q = query(collectionRef);
+
+    const querySnapshot = await getDocs(q);
+    const categoriesMap = querySnapshot.docs.reduce((acc, docSnapshot) => {
+      const { title, items } = docSnapshot.data();
+      acc[title?.toLowerCase()] = items;
+      return acc;
+    }, {});
+    dispatch(setCategoriesTable(categoriesMap));
+    // return categoriesMap;
+  } catch (e) {
+    console.log("getCategoriesAndDoc error : ", e);
+    dispatch(setCategoriesTable({}));
+    // return {};
+  }
+};
+
 // Action creators are generated for each case reducer function
-export const { setIsCartOpen, setCartItems, setCartCount, setCartTotal } =
-  shopSlice.actions;
+export const {
+  setIsCartOpen,
+  setCartItems,
+  setCartCount,
+  setCartTotal,
+  setCategoriesTable,
+} = shopSlice.actions;
 
 export default shopSlice.reducer;
