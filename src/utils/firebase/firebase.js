@@ -8,7 +8,14 @@ import {
   signOut,
   onAuthStateChanged,
 } from "firebase/auth";
-import { doc, getFirestore, getDoc, setDoc } from "firebase/firestore";
+import {
+  doc,
+  getFirestore,
+  getDoc,
+  setDoc,
+  collection,
+  writeBatch,
+} from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBMQHGU0jrfXjnEoItmRq8St79FWwly0hI",
@@ -32,12 +39,27 @@ export const auth = getAuth();
 export const signInWithGooglePopup = () =>
   signInWithPopup(auth, GoogleProvider);
 
-export const ztmCrownClothingDb = getFirestore();
+export const crownClothingDb = getFirestore();
 
+/* categories */
+// 一次性加入一批資料進 DataBase
+export const addCollectionAndDoc = async (collectionName, objectToAdd) => {
+  const collectionRef = collection(crownClothingDb, collectionName);
+  const batch = writeBatch(crownClothingDb);
+  objectToAdd.forEach((object) => {
+    const docRef = doc(collectionRef, object.title.toLowerCase());
+    batch.set(docRef, object);
+  });
+  await batch.commit();
+  console.log("addCollectionAndDoc to firebase done");
+};
+
+
+/* user */
 // createUserDocFromAuth 內有判斷如果沒有 user 創 user 如果有就 return userDocRef
 export const createUserDocFromAuth = async (userAuth, additionalInfo = {}) => {
   if (!userAuth) return;
-  const userDocRef = doc(ztmCrownClothingDb, "users", userAuth.uid);
+  const userDocRef = doc(crownClothingDb, "users", userAuth.uid);
 
   const userSnapshot = await getDoc(userDocRef);
   // console.log("userSnapshot", userSnapshot.exists()); // true or false
