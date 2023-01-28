@@ -1,9 +1,9 @@
 import React from 'react'
-import CategoriesContainer from '../../component/CategoriesContainer/CategoriesContainer'
+import DirectoriesContainer from '../../component/DirectoriesContainer/DirectoriesContainer'
 
 const Home = () => {
   return (
-    <CategoriesContainer />
+    <DirectoriesContainer />
   )
 }
 
