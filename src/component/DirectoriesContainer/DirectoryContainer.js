@@ -2,11 +2,11 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 
 const DirectoryContainer = ({ categoryInfo }) => {
-  const { title, imageUrl } = categoryInfo;
+  const { title, imageUrl, route } = categoryInfo;
   const navigate = useNavigate();
   const handleNavigateShopCategory = () => {
-    navigate(`/shop/${title}`)
-  }
+    navigate(route);
+  };
   return (
     <li className="directory-container">
       {/* <img /> */}
@@ -14,7 +14,10 @@ const DirectoryContainer = ({ categoryInfo }) => {
         className="background-image"
         style={{ backgroundImage: `url(${imageUrl})` }}
       />
-      <div className="directory-body-container" onClick={handleNavigateShopCategory}>
+      <div
+        className="directory-body-container"
+        onClick={handleNavigateShopCategory}
+      >
         <h2>{title}</h2>
         <p>Shop Now</p>
       </div>
