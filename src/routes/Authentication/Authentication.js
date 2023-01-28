@@ -9,7 +9,6 @@ const Authentication = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     const unSubscribe = onAuthStateChangedListener((user) => {
-      console.log("user", user);
       if (user) {
         createUserDocFromAuth(user);
       }
