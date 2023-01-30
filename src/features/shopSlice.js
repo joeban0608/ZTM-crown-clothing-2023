@@ -1,6 +1,23 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { collection, getDocs, query } from "firebase/firestore";
 import { crownClothingDb } from "../utils/firebase/firebase";
+
+export const getCategoriesAndDocThunk = createAsyncThunk(
+  "shop/fetchCategories",
+  async () => {
+    const collectionRef = collection(crownClothingDb, "categories");
+    const q = query(collectionRef);
+
+    const querySnapshot = await getDocs(q);
+    const categoriesMap = querySnapshot.docs.reduce((acc, docSnapshot) => {
+      const { title, items } = docSnapshot.data();
+      acc[title?.toLowerCase()] = items;
+      return acc;
+    }, {});
+    // console.log("categoriesMap", categoriesMap);
+    return categoriesMap;
+  }
+);
 
 const initialState = {
   isCartOpen: false,
@@ -8,6 +25,7 @@ const initialState = {
   cartItemsCount: 0,
   cartTotal: 0,
   categoriesTable: {},
+  categoriesLoading: false,
 };
 
 export const shopSlice = createSlice({
@@ -27,8 +45,21 @@ export const shopSlice = createSlice({
     setCartTotal: (state, action) => {
       state.cartTotal = action.payload;
     },
-    setCategoriesTable: (state, action) => {
-      state.categoriesTable = action.payload;
+    // setCategoriesTable: (state, action) => {
+    //   state.categoriesTable = action.payload;
+    // },
+  },
+  extraReducers: {
+    [getCategoriesAndDocThunk.pending]: (state) => {
+      state.categoriesLoading = true;
+    },
+    [getCategoriesAndDocThunk.fulfilled]: (state, { payload }) => {
+      state.categoriesLoading = false;
+      state.categoriesTable = payload;
+    },
+    [getCategoriesAndDocThunk.rejected]: (state) => {
+      state.categoriesLoading = false;
+      state.categoriesTable = {};
     },
   },
 });
@@ -81,26 +112,26 @@ export const clearItemToCart = (cartItems, productToRemove) => {
   return cartItems.filter((cartItem) => cartItem.id !== productToRemove.id);
 };
 
-/* categories */
-export const getCategoriesAndDocAsync = async (dispatch) => {
-  try {
-    const collectionRef = collection(crownClothingDb, "categories");
-    const q = query(collectionRef);
+// /* categories */
+// export const getCategoriesAndDocAsync = async (dispatch) => {
+//   try {
+//     const collectionRef = collection(crownClothingDb, "categories");
+//     const q = query(collectionRef);
 
-    const querySnapshot = await getDocs(q);
-    const categoriesMap = querySnapshot.docs.reduce((acc, docSnapshot) => {
-      const { title, items } = docSnapshot.data();
-      acc[title?.toLowerCase()] = items;
-      return acc;
-    }, {});
-    dispatch(setCategoriesTable(categoriesMap));
-    // return categoriesMap;
-  } catch (e) {
-    console.log("getCategoriesAndDoc error : ", e);
-    dispatch(setCategoriesTable({}));
-    // return {};
-  }
-};
+//     const querySnapshot = await getDocs(q);
+//     const categoriesMap = querySnapshot.docs.reduce((acc, docSnapshot) => {
+//       const { title, items } = docSnapshot.data();
+//       acc[title?.toLowerCase()] = items;
+//       return acc;
+//     }, {});
+//     dispatch(setCategoriesTable(categoriesMap));
+//     // return categoriesMap;
+//   } catch (e) {
+//     console.log("getCategoriesAndDoc error : ", e);
+//     dispatch(setCategoriesTable({}));
+//     // return {};
+//   }
+// };
 
 // Action creators are generated for each case reducer function
 export const {

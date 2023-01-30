@@ -5,6 +5,7 @@ import { rootReducer } from "./rootReducer";
 import storage from "redux-persist/lib/storage";
 import persistReducer from "redux-persist/es/persistReducer";
 import persistStore from "redux-persist/es/persistStore";
+import thunk from "redux-thunk";
 
 const isDevelopment = process.env.NODE_ENV === "development";
 /*
@@ -20,7 +21,7 @@ const persistConfig = {
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-const middlewares = [isDevelopment && logger].filter(Boolean);
+const middlewares = [isDevelopment && logger, thunk].filter(Boolean);
 const composeEnhancer =
   (isDevelopment && window && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) ||
   compose;
