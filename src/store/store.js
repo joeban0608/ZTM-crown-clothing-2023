@@ -1,9 +1,16 @@
-import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
-import userReducer from "../features/userSlice";
-import shopReducer from "../features/shopSlice";
-import logger from "redux-logger";
+import {
+  applyMiddleware,
+  compose,
+  createStore,
+} from "@reduxjs/toolkit";
 
-export const store = configureStore({
+import logger from "redux-logger";
+import { rootReducer } from "./rootReducer";
+
+const middlewares = [logger];
+const composedEnhancers = compose(applyMiddleware(...middlewares));
+export const store = createStore(rootReducer, undefined, composedEnhancers);
+/* configureStore({
   reducer: {
     user: userReducer,
     shop: shopReducer,
@@ -12,3 +19,4 @@ export const store = configureStore({
     serializableCheck: false,
   }).concat(logger),
 });
+ */
