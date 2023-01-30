@@ -1,20 +1,14 @@
 import { Route, Routes } from "react-router-dom";
+import useAuthListener from "./hook/useAuthListener";
 import Authentication from "./routes/Authentication/Authentication";
 import Checkout from "./routes/Checkout/Checkout";
 import Home from "./routes/Home/Home";
 import Navigation from "./routes/Navigation/Navigation";
 import Shop from "./routes/Shop/Shop";
-// import { ONCE_SHOP_DATA } from "./config/onceShopData";
-// import { addCollectionAndDoc } from "./utils/firebase/firebase";
-// import { useEffect } from "react";
 
 const App = () => {
-  /*  
-  一次性存入資料進 firebase
-  useEffect(() => {
-      addCollectionAndDoc("categories", ONCE_SHOP_DATA);
-    }, []); 
-  */
+  // 當進入網頁時, 即確認 firebase 是否有登入過
+  useAuthListener()
 
   return (
     <Routes>
