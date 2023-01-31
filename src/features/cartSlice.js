@@ -24,6 +24,12 @@ export const cartSlice = createSlice({
     setCartTotal: (state, action) => {
       state.cartTotal = action.payload;
     },
+    resetCart: (state) => {
+      state.isCartOpen = false;
+      state.cartItems = [];
+      state.cartItemsCount = 0;
+      state.cartTotal = 0;
+    },
   },
 });
 
@@ -76,7 +82,12 @@ export const clearItemToCart = (cartItems, productToRemove) => {
 };
 
 // Action creators are generated for each case reducer function
-export const { setIsCartOpen, setCartItems, setCartCount, setCartTotal } =
-  cartSlice.actions;
+export const {
+  setIsCartOpen,
+  setCartItems,
+  setCartCount,
+  setCartTotal,
+  resetCart,
+} = cartSlice.actions;
 
 export default cartSlice.reducer;

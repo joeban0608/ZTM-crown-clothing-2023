@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import CheckoutItem from "../../component/CheckoutItem/CheckoutItem";
+import PaymentForm from "../../component/PaymentForm/PaymentForm";
 import { setCartTotal } from "../../features/cartSlice";
 import "./checkout.scss";
 
@@ -44,6 +45,7 @@ const Checkout = () => {
         );
       })}
       <span className="total">Total: ${cartTotal}</span>
+      <PaymentForm />
     </div>
   );
 };

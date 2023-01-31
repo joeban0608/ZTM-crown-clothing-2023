@@ -1,6 +1,12 @@
 import React from "react";
 import "./button.scss";
-const Button = ({ children, buttonType, ...otherProps }) => {
+const Button = ({
+  children,
+  buttonType,
+  isLoading = false,
+  payment = "",
+  ...otherProps
+}) => {
   /* 
   default
   inverted
@@ -12,10 +18,11 @@ const Button = ({ children, buttonType, ...otherProps }) => {
   };
   return (
     <button
-      className={`button-container ${BUTTON_TYPE_CLASSES[buttonType] ?? ""}`}
+      disabled={isLoading}
+      className={`button-container ${BUTTON_TYPE_CLASSES[buttonType] ?? ""} ${payment}`}
       {...otherProps}
     >
-      {children}
+      {isLoading ? <div className="loading" /> : children}
     </button>
   );
 };
