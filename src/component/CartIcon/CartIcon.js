@@ -1,13 +1,13 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ReactComponent as ShoppingIcon } from "../../assets/shoppingBag.svg";
-import { setCartCount, setIsCartOpen } from "../../features/shopSlice";
+import { setCartCount, setIsCartOpen } from "../../features/cartSlice";
 import "./cartIcon.scss";
 
 const CartIcon = () => {
   const dispatch = useDispatch();
   const { isCartOpen, cartItemsCount, cartItems } = useSelector(
-    (state) => state.shop
+    (state) => state.cart
   );
   const toggleIsCartOpen = () => {
     dispatch(setIsCartOpen(!isCartOpen));

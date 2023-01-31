@@ -12,7 +12,7 @@ const Navigation = () => {
     <Fragment></Fragment> === <></> 
    */
   const { currentUser } = useSelector((state) => state.user);
-  const { isCartOpen } = useSelector((state) => state.shop);
+  const { isCartOpen } = useSelector((state) => state.cart);
 
   return (
     <Fragment>

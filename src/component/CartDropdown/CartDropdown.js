@@ -6,7 +6,7 @@ import CartItem from "../CartItem/CartItem";
 import "./cartDropdown.scss";
 
 const CartDropdown = () => {
-  const { cartItems } = useSelector((state) => state.shop);
+  const { cartItems } = useSelector((state) => state.cart);
   const navigate = useNavigate();
   const goToCheckOutHandler = () => {
     navigate("/checkout");

@@ -7,8 +7,8 @@ import "./category.scss";
 
 const Category = () => {
   const { category } = useParams();
-  const { categoriesTable, categoriesLoading } = useSelector(
-    (state) => state.shop
+  const { categoriesTable, isLoading } = useSelector(
+    (state) => state.category
   );
   const [products, setProducts] = useState([]);
   useEffect(() => {
@@ -18,7 +18,7 @@ const Category = () => {
   return (
     <>
       <h2 className="category-title">{category.toUpperCase()}</h2>
-      {categoriesLoading? <Spinner />: (
+      {isLoading? <Spinner />: (
         <div className="category-container">
           {products?.length &&
             products.map((product) => (
