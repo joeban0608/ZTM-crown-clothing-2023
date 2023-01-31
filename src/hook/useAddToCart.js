@@ -4,7 +4,7 @@ import {
   setCartItems,
   removeItemToCart,
   clearItemToCart,
-} from "../features/shopSlice";
+} from "../features/cartSlice";
 
 const useAddToCart = () => {
   const dispatch = useDispatch();

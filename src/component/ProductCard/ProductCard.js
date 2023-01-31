@@ -6,7 +6,7 @@ import "./productCard.scss";
 
 const ProductCard = ({ product }) => {
   const { imageUrl, name, price } = product;
-  const { cartItems } = useSelector((state) => state.shop);
+  const { cartItems } = useSelector((state) => state.cart);
   const { handleAddToCart } = useAddToCart();
 
   return (

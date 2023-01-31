@@ -4,13 +4,13 @@ import CategoryPreview from "../../../component/CategoryPreview/CategoryPreview"
 import Spinner from "../../../component/Spinner/Spinner";
 
 const CategoriesPreview = () => {
-  const { categoriesTable, categoriesLoading } = useSelector(
-    (state) => state.shop
+  const { categoriesTable, isLoading } = useSelector(
+    (state) => state.category
   );
-
+  
   return (
     <>
-      {categoriesLoading ? (
+      {isLoading ? (
         <Spinner />
       ) : (
         Object.keys(categoriesTable).map((title) => {

@@ -15,6 +15,8 @@ import {
   setDoc,
   collection,
   writeBatch,
+  getDocs,
+  query,
 } from "firebase/firestore";
 
 const firebaseConfig = {
@@ -100,3 +102,15 @@ export const signOutUser = async () => signOut(auth);
 
 export const onAuthStateChangedListener = (callback) =>
   onAuthStateChanged(auth, callback);
+
+export const getCategoriesAndDocAsync = async(collectionName) => {
+  const collectionRef = collection(crownClothingDb, collectionName);
+  const q = query(collectionRef);
+  const querySnapshot = await getDocs(q);
+  const categoriesMap = querySnapshot.docs.reduce((acc, docSnapshot) => {
+    const { title, items } = docSnapshot.data();
+    acc[title?.toLowerCase()] = items;
+    return acc;
+  }, {});
+  return categoriesMap
+}

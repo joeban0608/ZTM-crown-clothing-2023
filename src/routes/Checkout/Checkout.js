@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import CheckoutItem from "../../component/CheckoutItem/CheckoutItem";
-import { setCartTotal } from "../../features/shopSlice";
+import { setCartTotal } from "../../features/cartSlice";
 import "./checkout.scss";
 
 const Checkout = () => {
   const dispatch = useDispatch();
-  const { cartItems, cartTotal } = useSelector((state) => state.shop);
+  const { cartItems, cartTotal } = useSelector((state) => state.cart);
   useEffect(() => {
     const calculatedTotal = cartItems.reduce(
       (total, cartItem) => total + cartItem.quantity * cartItem.price,
