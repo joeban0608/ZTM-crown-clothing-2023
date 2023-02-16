@@ -7,4 +7,4 @@
 - firebase google 註冊與登入登出系統
 - 購物車系統
 - 建置 server netlity ci/cd
-- crown_cloth 網址: [https://rainbow-pudding-eb0eaa.netlify.app]
+- 作品 [點這裡](https://rainbow-pudding-eb0eaa.netlify.app)
